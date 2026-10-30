@@ -5,16 +5,31 @@ html {
   color-scheme: light;
   @include mat.theme((
     color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: mat.$green-palette,
+      tertiary: mat.$cyan-palette,
     ),
     typography: Roboto,
     density: 0,
   ));
 }
 
+:root {
+  --cor-fundo: #f3f7f4;
+  --cor-escura: #0f6b4a;
+  --cor-clara: #2fa37a;
+}
+
 body {
   height: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--cor-fundo);
+}
+
+.mat-mdc-card {
+  border-radius: 16px;
+}
+
+h2, h3 {
+  color: #14342a;
 }

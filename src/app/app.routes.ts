@@ -12,7 +12,6 @@ export const routes: Routes = [
       { path: 'oferecer', loadComponent: () => import('./pages/oferecer-carona/oferecer-carona').then(m => m.OferecerCarona) },
       { path: 'buscar', loadComponent: () => import('./pages/buscar-carona/buscar-carona').then(m => m.BuscarCarona) },
       { path: 'minhas', loadComponent: () => import('./pages/minhas-caronas/minhas-caronas').then(m => m.MinhasCaronas) },
-      { path: 'perfil', loadComponent: () => import('./pages/perfil/perfil').then(m => m.Perfil) },
       { path: '', pathMatch: 'full', redirectTo: 'home' },
     ],
   },

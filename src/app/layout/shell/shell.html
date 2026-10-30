@@ -1,18 +1,31 @@
-<mat-toolbar>
-  <span>MoviFacens</span>
-  <span class="espaco"></span>
-  <span class="usuario">{{ auth.usuario()?.nome }}</span>
-  <button mat-button (click)="sair()">Sair</button>
-</mat-toolbar>
-
-<nav class="menu">
-  <a routerLink="/home" routerLinkActive="ativo">Início</a>
-  <a routerLink="/oferecer" routerLinkActive="ativo">Oferecer</a>
-  <a routerLink="/buscar" routerLinkActive="ativo">Buscar</a>
-  <a routerLink="/minhas" routerLinkActive="ativo">Minhas Caronas</a>
-</nav>
-
+<header class="topo">
+  <div class="marca">
+    <mat-icon>eco</mat-icon>
+    <span>MoviFacens</span>
+  </div>
+  <div class="direita">
+    <span class="usuario">{{ auth.usuario()?.nome }}</span>
+    <button mat-icon-button (click)="sair()" aria-label="Sair">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</header>
 
 <main class="conteudo">
   <router-outlet />
 </main>
+
+<nav class="menu">
+  <a routerLink="/home" routerLinkActive="ativo">
+    <mat-icon>home</mat-icon><span>Início</span>
+  </a>
+  <a routerLink="/oferecer" routerLinkActive="ativo">
+    <mat-icon>directions_car</mat-icon><span>Oferecer</span>
+  </a>
+  <a routerLink="/buscar" routerLinkActive="ativo">
+    <mat-icon>search</mat-icon><span>Buscar</span>
+  </a>
+  <a routerLink="/minhas" routerLinkActive="ativo">
+    <mat-icon>list_alt</mat-icon><span>Minhas</span>
+  </a>
+</nav>

@@ -1,16 +1,46 @@
-<h2>Olá, {{ auth.usuario()?.nome }}!</h2>
-<p>O que você quer fazer hoje?</p>
+<section class="boas-vindas">
+  <h2>Olá, {{ auth.usuario()?.nome }}! 👋</h2>
+  <p>Divida a carona, economize e reduza o trânsito em volta do campus.</p>
+</section>
+
+<section class="numeros">
+  <div class="numero">
+    <mat-icon>groups</mat-icon>
+    <strong>{{ aceitas() }}</strong>
+    <span>caronas combinadas</span>
+  </div>
+  <div class="numero">
+    <mat-icon>eco</mat-icon>
+    <strong>{{ co2() }} kg</strong>
+    <span>de CO₂ evitados*</span>
+  </div>
+  <div class="numero">
+    <mat-icon>notifications</mat-icon>
+    <strong>{{ pendentes() }}</strong>
+    <span>pedidos pendentes</span>
+  </div>
+</section>
 
 <div class="acoes">
   <mat-card>
-    <mat-card-header><mat-card-title>Tenho carro</mat-card-title></mat-card-header>
-    <mat-card-content>Publique seu trajeto e divida as vagas.</mat-card-content>
-    <mat-card-actions><a mat-flat-button routerLink="/oferecer">Oferecer carona</a></mat-card-actions>
+    <mat-card-header>
+      <mat-card-title>Tenho carro</mat-card-title>
+      <mat-card-subtitle>Publique seu trajeto e divida as vagas</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <a mat-flat-button routerLink="/oferecer">Oferecer carona</a>
+    </mat-card-actions>
   </mat-card>
 
   <mat-card>
-    <mat-card-header><mat-card-title>Preciso de carona</mat-card-title></mat-card-header>
-    <mat-card-content>Encontre colegas com trajeto e horário parecidos.</mat-card-content>
-    <mat-card-actions><a mat-flat-button routerLink="/buscar">Buscar carona</a></mat-card-actions>
+    <mat-card-header>
+      <mat-card-title>Preciso de carona</mat-card-title>
+      <mat-card-subtitle>Encontre colegas com trajeto e horário parecidos</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <a mat-flat-button routerLink="/buscar">Buscar carona</a>
+    </mat-card-actions>
   </mat-card>
 </div>
+
+<p class="nota">* Estimativa: 10 km por trajeto e cerca de 0,12 kg de CO₂ por km de carro.</p>
