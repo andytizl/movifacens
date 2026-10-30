@@ -95,8 +95,6 @@ ng serve
 
 Acesse `http://localhost:4200`.
 
-> A chave pública do Supabase foi feita para ficar no navegador; quem protege os dados são as regras de segurança (RLS) do `schema.sql`. **Nunca** use a chave `service_role` / `secret` no frontend nem a envie ao repositório.
-
 ## Roteiro de demonstração
 
 1. **Cadastro com email fora da Facens** → o app recusa.
