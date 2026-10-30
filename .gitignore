@@ -1,0 +1,27 @@
+# Saída de build
+/dist
+/tmp
+/out-tsc
+
+# Dependências
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Cache do Angular
+/.angular
+
+# Editores
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.sublime-workspace
+
+# Outros
+.sass-cache/
+/coverage
+.DS_Store
+Thumbs.db
