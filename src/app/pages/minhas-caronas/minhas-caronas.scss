@@ -1,7 +1,14 @@
 h3 { margin: 24px 0 8px; }
 .item { margin-bottom: 12px; }
 .vazio { color: #666; }
-.status { font-weight: 600; }
-.PENDENTE { color: #b26a00; }
-.ACEITA { color: #1b7f3b; }
-.RECUSADA { color: #b3261e; }
+
+.status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.PENDENTE { background: #fff3d6; color: #8a5a00; }
+.ACEITA   { background: #d9f3e3; color: #14633a; }
+.RECUSADA { background: #fde0dd; color: #9c2a20; }

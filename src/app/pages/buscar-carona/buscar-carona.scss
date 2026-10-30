@@ -4,3 +4,11 @@ form { display: flex; flex-direction: column; gap: 4px; margin-top: 16px; }
 h3 { margin: 24px 0 8px; }
 .resultado { margin-bottom: 12px; }
 .vazio { color: #666; }
+.avatar {
+  display: grid;
+  place-items: center;
+  background: var(--cor-clara);
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}

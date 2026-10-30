@@ -15,8 +15,8 @@ html {
 
 :root {
   --cor-fundo: #f3f7f4;
-  --cor-escura: #0f6b4a;
-  --cor-clara: #2fa37a;
+  --cor-escura: color-mix(in srgb, var(--mat-sys-primary) 80%, black);
+  --cor-clara: color-mix(in srgb, var(--mat-sys-primary) 65%, white);
 }
 
 body {
@@ -28,6 +28,17 @@ body {
 
 .mat-mdc-card {
   border-radius: 16px;
+}
+
+.mat-mdc-card-title {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  color: #14342a !important;
+}
+
+.mat-mdc-card-subtitle {
+  font-weight: 400 !important;
+  color: #5b6d65 !important;
 }
 
 h2, h3 {
