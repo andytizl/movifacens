@@ -1,6 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { emailFacensValido } from '../utils/validar-email-facens';
+import { supabase } from '../supabase';
 
 const CHAVE = 'movifacens_usuario';
 
@@ -10,34 +11,61 @@ export class Auth {
 
   usuario = this._usuario.asReadonly();
   logado = computed(() => this._usuario() !== null);
+  
+  constructor() {
+  supabase.auth.getSession().then(({ data }) => {
+    if (!data.session) {
+      this._usuario.set(null);
+      localStorage.removeItem(CHAVE);
+    }
+  });
+}
 
   estaLogado(): boolean {
     return this.logado();
   }
 
-  // MOCK: depois troque o corpo por supabase.auth.signInWithPassword(...)
   async login(email: string, senha: string): Promise<void> {
-    await new Promise(r => setTimeout(r, 500)); // simula rede
-
     if (!emailFacensValido(email)) {
       throw new Error('Use seu email institucional da Facens.');
     }
-    if (senha.length < 6) {
-      throw new Error('Senha inválida.');
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: senha,
+    });
+    if (error || !data.user) {
+      throw new Error('Email ou senha incorretos.');
     }
-
-    const usuario: Usuario = {
-      id: 1,
-      nome: email.split('@')[0],
-      email: email.toLowerCase(),
-    };
-    this._usuario.set(usuario);
-    localStorage.setItem(CHAVE, JSON.stringify(usuario));
+    this.definirUsuario({
+      id: data.user.id,
+      nome: data.user.user_metadata?.['nome'] ?? email.split('@')[0],
+      email: data.user.email ?? email,
+    });
   }
 
-  logout(): void {
+  async cadastrar(nome: string, email: string, senha: string): Promise<void> {
+    if (!emailFacensValido(email)) {
+      throw new Error('Use seu email institucional da Facens.');
+    }
+    const { error } = await supabase.auth.signUp({
+      email,
+      password: senha,
+      options: { data: { nome } },
+    });
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async logout(): Promise<void> {
+    await supabase.auth.signOut();
     this._usuario.set(null);
     localStorage.removeItem(CHAVE);
+  }
+
+  private definirUsuario(u: Usuario) {
+    this._usuario.set(u);
+    localStorage.setItem(CHAVE, JSON.stringify(u));
   }
 
   private carregar(): Usuario | null {

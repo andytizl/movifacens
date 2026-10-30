@@ -1,0 +1,55 @@
+@if (carregando()) {
+  <p>Carregando...</p>
+} @else {
+  <h3>Pedidos recebidos</h3>
+  @if (recebidas().length === 0) {
+    <p class="vazio">Nenhum pedido nas suas caronas ainda.</p>
+  }
+  @for (s of recebidas(); track s.id) {
+    <mat-card class="item">
+      <mat-card-header>
+        <mat-card-title>{{ s.pessoa }}</mat-card-title>
+        <mat-card-subtitle>{{ s.trajeto }} · {{ s.horario }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="status" [class]="s.status">{{ s.status }}</span>
+        · {{ s.vagas }} {{ s.vagas === 1 ? 'vaga restante' : 'vagas restantes' }}
+      </mat-card-content>
+      @if (s.status === 'PENDENTE') {
+        <mat-card-actions>
+          <button mat-flat-button (click)="responder(s, true)">Aceitar</button>
+          <button mat-button (click)="responder(s, false)">Recusar</button>
+        </mat-card-actions>
+      }
+    </mat-card>
+  }
+
+  <h3>Caronas que eu ofereço</h3>
+  @if (ofertas().length === 0) {
+    <p class="vazio">Você ainda não ofereceu nenhuma carona.</p>
+  }
+  @for (o of ofertas(); track o.id) {
+    <mat-card class="item">
+      <mat-card-header>
+        <mat-card-title>{{ o.origem.descricao }} → {{ o.destino.descricao }}</mat-card-title>
+        <mat-card-subtitle>{{ o.horario }} · {{ o.vagas }} {{ o.vagas === 1 ? 'vaga' : 'vagas' }}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  }
+
+  <h3>Caronas que eu solicitei</h3>
+  @if (enviadas().length === 0) {
+    <p class="vazio">Você ainda não solicitou nenhuma carona.</p>
+  }
+  @for (s of enviadas(); track s.id) {
+    <mat-card class="item">
+      <mat-card-header>
+        <mat-card-title>{{ s.pessoa }}</mat-card-title>
+        <mat-card-subtitle>{{ s.trajeto }} · {{ s.horario }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="status" [class]="s.status">{{ s.status }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+}

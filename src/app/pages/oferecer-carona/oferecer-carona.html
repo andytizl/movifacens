@@ -1,1 +1,63 @@
-<p>oferecer-carona works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Oferecer carona</mat-card-title>
+    <mat-card-subtitle>Publique seu trajeto e horário</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="enviar()">
+      <mat-form-field appearance="outline">
+        <mat-label>Sentido</mat-label>
+        <mat-select formControlName="sentido">
+          <mat-option value="IDA">Ida (bairro → Facens)</mat-option>
+          <mat-option value="VOLTA">Volta (Facens → bairro)</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <mat-select formControlName="bairro">
+          @for (b of bairros; track b.descricao) {
+            <mat-option [value]="b.descricao">{{ b.descricao }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.bairro.invalid) {
+          <mat-error>Escolha um bairro.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dias da semana</mat-label>
+        <mat-select formControlName="dias" multiple>
+          @for (d of dias; track d.valor) {
+            <mat-option [value]="d.valor">{{ d.nome }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.dias.invalid) {
+          <mat-error>Escolha ao menos um dia.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Horário de saída</mat-label>
+        <input matInput type="time" formControlName="horario" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Vagas</mat-label>
+        <input matInput type="number" min="1" max="6" formControlName="vagas" />
+        @if (form.controls.vagas.invalid) {
+          <mat-error>Entre 1 e 6 vagas.</mat-error>
+        }
+      </mat-form-field>
+
+      @if (erro()) {
+        <p class="erro">{{ erro() }}</p>
+      }
+
+      <button mat-flat-button type="submit" class="botao" [disabled]="carregando()">
+        {{ carregando() ? 'Publicando...' : 'Publicar carona' }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

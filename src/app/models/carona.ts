@@ -9,7 +9,7 @@ export type Sentido = 'IDA' | 'VOLTA';
 
 export interface OfertaCarona {
   id: number;
-  motoristaId: number;
+  motoristaId: string;
   motoristaNome: string;
   origem: Ponto;
   destino: Ponto;

@@ -19,15 +19,31 @@ export class Login {
   private auth = inject(Auth);
   private router = inject(Router);
 
+  modo = signal<'login' | 'cadastro'>('login');
   carregando = signal(false);
   erro = signal('');
 
   form = this.fb.nonNullable.group({
+    nome: [''],
     email: ['', [Validators.required, emailFacensValidator]],
     senha: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  async entrar() {
+  alternarModo() {
+    const novo = this.modo() === 'login' ? 'cadastro' : 'login';
+    this.modo.set(novo);
+    this.erro.set('');
+
+    const nome = this.form.controls.nome;
+    if (novo === 'cadastro') {
+      nome.setValidators([Validators.required, Validators.minLength(2)]);
+    } else {
+      nome.clearValidators();
+    }
+    nome.updateValueAndValidity();
+  }
+
+  async enviar() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -35,7 +51,10 @@ export class Login {
     this.carregando.set(true);
     this.erro.set('');
     try {
-      const { email, senha } = this.form.getRawValue();
+      const { nome, email, senha } = this.form.getRawValue();
+      if (this.modo() === 'cadastro') {
+        await this.auth.cadastrar(nome.trim(), email, senha);
+      }
       await this.auth.login(email, senha);
       this.router.navigate(['/home']);
     } catch (e) {

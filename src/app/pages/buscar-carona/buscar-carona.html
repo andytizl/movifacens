@@ -1,1 +1,81 @@
-<p>buscar-carona works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Buscar carona</mat-card-title>
+    <mat-card-subtitle>Encontre colegas com trajeto e horário parecidos</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="buscar()">
+      <mat-form-field appearance="outline">
+        <mat-label>Sentido</mat-label>
+        <mat-select formControlName="sentido">
+          <mat-option value="IDA">Ida (bairro → Facens)</mat-option>
+          <mat-option value="VOLTA">Volta (Facens → bairro)</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seu bairro</mat-label>
+        <mat-select formControlName="bairro">
+          @for (b of bairros; track b.descricao) {
+            <mat-option [value]="b.descricao">{{ b.descricao }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.bairro.invalid) {
+          <mat-error>Escolha um bairro.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dia</mat-label>
+        <mat-select formControlName="dia">
+          @for (d of dias; track d.valor) {
+            <mat-option [value]="d.valor">{{ d.nome }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Horário desejado</mat-label>
+        <input matInput type="time" formControlName="horario" />
+      </mat-form-field>
+
+      @if (erro()) {
+        <p class="erro">{{ erro() }}</p>
+      }
+
+      <button mat-flat-button type="submit" class="botao" [disabled]="carregando()">
+        {{ carregando() ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+@if (resultados(); as lista) {
+  <h3>Caronas compatíveis</h3>
+
+  @if (lista.length === 0) {
+    <p class="vazio">Nenhuma carona encontrada para esse bairro e horário (raio de 2 km e até 20 min de diferença).</p>
+  }
+
+  @for (r of lista; track r.oferta.id) {
+    <mat-card class="resultado">
+      <mat-card-header>
+        <mat-card-title>{{ r.oferta.motoristaNome }}</mat-card-title>
+        <mat-card-subtitle>{{ r.oferta.origem.descricao }} → {{ r.oferta.destino.descricao }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Saída às <strong>{{ r.oferta.horario }}</strong>
+          ({{ r.diferencaMin }} min de diferença) · {{ r.distanciaKm.toFixed(1) }} km do seu bairro ·
+          {{ r.oferta.vagas }} {{ r.oferta.vagas === 1 ? 'vaga' : 'vagas' }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button [disabled]="solicitadas().has(r.oferta.id)" (click)="solicitar(r)">
+          {{ solicitadas().has(r.oferta.id) ? 'Vaga solicitada' : 'Solicitar vaga' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+}
